@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 EaDesign by Eco Active S.R.L. All rights reserved.
+ * See LICENSE for license details.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <preference for="Eadesigndev\Productfeed\Api\Data\FeedInterface"
+                type="Eadesigndev\Productfeed\Model\Feed" />
+
+</config>

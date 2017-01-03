@@ -9,7 +9,7 @@ namespace Eadesigndev\Productfeed\Model;
 use Magento\Framework\ObjectManagerInterface;
 
 
-class FeedFactory
+class FeedFactory implements FactoryInterface
 {
     /**
      * Object Manager instance
@@ -40,7 +40,7 @@ class FeedFactory
      * @param array $data
      * @return \Eadesigndev\Productfeed\Api\Data\FeedInterface
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         return $this->_objectManager->create($this->_instanceName, $data);
     }

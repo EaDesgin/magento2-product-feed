@@ -7,7 +7,7 @@
 namespace Eadesigndev\Productfeed\Model;
 
 use Eadesigndev\Productfeed\Api\Data\FeedInterface;
-use Eadesigndev\Productfeed\Model\ResourceModel as FeedResourceModel;
+use Eadesigndev\Productfeed\Model\ResourceModel\Feed as FeedResourceModel;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Registry;
@@ -31,7 +31,6 @@ class Feed extends AbstractModel implements FeedInterface
     {
         $this->_init(FeedResourceModel::class);
     }
-
 
     /**
      * @return int

@@ -7,6 +7,7 @@
 namespace Eadesigndev\Productfeed\Api;
 
 use Magento\Framework\Api\SearchCriteriaInterface;
+use Eadesigndev\Productfeed\Api\Data\FeedInterface;
 
 interface FeedRepositoryInterface
 {

@@ -6,7 +6,7 @@
 
 namespace Eadesigndev\Productfeed\Model;
 
-use Eadesigndev\Productfeed\Api\FeedInterface;
+use Eadesigndev\Productfeed\Api\Data\FeedInterface;
 use Eadesigndev\Productfeed\Api\FeedRepositoryInterface;
 use Eadesigndev\Productfeed\Model\ResourceModel\Feed as FeedResourceModel;
 use Magento\Framework\Api\SearchCriteriaInterface;
@@ -77,7 +77,7 @@ class FeedRepository implements FeedRepositoryInterface
         $id = $feed->getId();
         try {
             unset($this->instances[$id]);
-            $this->resource->delete($feed);
+            $this->feedResourceModel->delete($feed);
 
         } catch (ValidatorException $e) {
             throw new CouldNotSaveException(__($e->getMessage()));

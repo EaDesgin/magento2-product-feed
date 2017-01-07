@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2017 EaDesign by Eco Active S.R.L. All rights reserved.
+ * See LICENSE for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Eadesigndev_Productfeed::productfeed"
+             title="Eadesign Feed"
+             module="Eadesigndev_Productfeed"
+             sortOrder="10"
+             resource="Eadesigndev_Productfeed::productfeed"
+             parent="Eadesigndev_Eacore::eadesign"/>
+        <add id="Eadesigndev_Productfeed::feed_list"
+             title="Manage Feeds"
+             module="Eadesigndev_Productfeed"
+             sortOrder="10"
+             parent="Eadesigndev_Productfeed::productfeed"
+             action="productfeed/generate"
+             resource="Eadesigndev_Productfeed::productfeed"/>
+    </menu>
+</config>

@@ -6,8 +6,14 @@
 
 namespace Eadesigndev\Productfeed\Model;
 
-
+/**
+ * Interface FactoryInterface
+ * @package Eadesigndev\Productfeed\Model
+ */
 interface FactoryInterface
 {
+    /**
+     * @return mixed
+     */
     public function create();
 }

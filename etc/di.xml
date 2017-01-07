@@ -12,4 +12,7 @@
     <preference for="Eadesigndev\Productfeed\Api\Data\FeedInterface"
                 type="Eadesigndev\Productfeed\Model\Feed" />
 
+    <preference for="Eadesigndev\Productfeed\Api\FeedProductRepositoryInterface"
+                type="Eadesigndev\Productfeed\Model\FeedProductRepository" />
+
 </config>

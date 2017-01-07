@@ -14,12 +14,25 @@ use Magento\Framework\Model\ResourceModel\Db\Context;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Model\AbstractModel;
 
-
+/**
+ * Class Feed
+ * @package Eadesigndev\Productfeed\Model\ResourceModel
+ *
+ * The resource, read write model for the feed.
+ */
 class Feed extends AbstractDb
 {
 
+    /**
+     * @var StoreManagerInterface
+     */
     private $storeManager;
 
+    /**
+     * Feed constructor.
+     * @param Context $context
+     * @param StoreManagerInterface $storeManager
+     */
     public function __construct(
         Context $context,
         StoreManagerInterface $storeManager

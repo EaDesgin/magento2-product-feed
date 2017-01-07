@@ -6,7 +6,7 @@
 
 namespace Eadesigndev\Productfeed\Helper;
 
-class Url
+class Data
 {
 
 

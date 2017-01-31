@@ -8,6 +8,7 @@ namespace Eadesigndev\Productfeed\Model;
 
 use Eadesigndev\Productfeed\Api\FeedProductRepositoryInterface;
 use Eadesigndev\Productfeed\Model\ResourceModel\ProductURLLink;
+use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory as CategoryCollectionFactory;
 use Magento\Catalog\Api\Data\ProductSearchResultsInterfaceFactory;
 use Magento\Catalog\Api\ProductAttributeRepositoryInterface;
 use Magento\Catalog\Model\ResourceModel\Product\Collection;
@@ -21,6 +22,19 @@ use Magento\Store\Model\StoreManagerInterface;
 
 class FeedProductRepository implements FeedProductRepositoryInterface
 {
+
+    /**
+     * @var \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory
+     */
+    private $categoryCollectionFactory;
+
+    /**
+     * @var
+     * todo to move to another model
+     */
+    private $categoryCollection;
+
+    private $categoriesArray = [];
 
     /**
      * @var Collection
@@ -60,6 +74,7 @@ class FeedProductRepository implements FeedProductRepositoryInterface
     private $productURLLink;
 
     public function __construct(
+        CategoryCollectionFactory $categoryCollectionFactory,
         CollectionFactory $collectionFactory,
         JoinProcessorInterface $joinProcessor,
         ProductAttributeRepositoryInterface $metadataServiceInterface,
@@ -69,6 +84,7 @@ class FeedProductRepository implements FeedProductRepositoryInterface
         ProductURLLink $productURLLink
     )
     {
+        $this->categoryCollectionFactory = $categoryCollectionFactory;
         $this->collectionFactory = $collectionFactory;
         $this->joinProcessor = $joinProcessor;
         $this->metadataService = $metadataServiceInterface;
@@ -82,9 +98,8 @@ class FeedProductRepository implements FeedProductRepositoryInterface
     {
         /** @var Collection $collection */
         $collection = $this->collectionFactory->create();
-        $this->joinProcessor->process($collection);
 
-        $this->productURLLink->joinToCollection($collection);
+        $this->joinProcessor->process($collection);
 
         foreach ($this->metadataService->getList($this->searchCriteriaBuilder->create())->getItems() as $metadata) {
             $collection->addAttributeToSelect($metadata->getAttributeCode());
@@ -107,12 +122,23 @@ class FeedProductRepository implements FeedProductRepositoryInterface
         $collection->setCurPage($searchCriteria->getCurrentPage());
         $collection->setPageSize($searchCriteria->getPageSize());
 
+        echo '<pre>';
+
+        //todo get this from another model
+        $this->addCategoryCollection();
+
+        foreach ($collection as $item) {
+            $catPath = $this->processCategories($item);
+            echo '<pre>';
+            print_r($catPath);
+        }
+
+        exit();
         $this->collection = $collection;
 
-        $this->addPriceToCollection();
+        $this->productURLLink->joinToCollection($collection);
 
-        echo '<pre>';
-        print_r($collection->getData());
+        $this->addPriceToCollection();
 
         $searchResult = $this->searchResultsFactory->create();
         $searchResult->setSearchCriteria($searchCriteria);
@@ -185,6 +211,89 @@ class FeedProductRepository implements FeedProductRepositoryInterface
         }
 
         return $collection;
+    }
+
+    /**
+     * @param $item
+     * todo temporary to move to another model
+     */
+    public function processCategories($item)
+    {
+
+        $categoriesIds = $item->getCategoryIds();
+        //todo refactor here - strange code
+        $this->processCategoryCollection();
+
+
+        if (!empty($categoriesIds)) {
+            $cat = array_intersect_key($this->categoriesArray, array_flip($categoriesIds));
+        }
+
+//        print_r($categoriesIds);
+//        print_r(array_keys($this->categoriesArray));
+//        print_r(array_keys($cat));
+
+        $catLevel = [];
+        foreach ($cat as $c) {
+            $catLevel[$c->getId()] = $c;
+        }
+
+//        echo '<pre>';
+//        print_r($catLevel);
+//        return $catLevel;
+//        exit();
+
+
+        //todo remove the validation before happens
+        if (!empty($catLevel)) {
+            $deepestCategory = max($catLevel);
+
+            $categoryPathByIds = explode('/', $deepestCategory->getPath());
+
+            $arrayNames = [];
+            foreach ($categoryPathByIds as $categoryPathById) {
+                $arrayNames [$categoryPathById] = $this->categoriesArray[$categoryPathById]->getName();
+            }
+
+            $delimiter = ' > ';
+
+            $finalStringCategoryes = implode($delimiter, $arrayNames);
+            return $finalStringCategoryes;
+
+//            print_r($finalStringCategoryes);
+        }
+
+
+    }
+
+    public function processCategoryCollection()
+    {
+        $categoryCollection = $this->categoryCollection;
+
+        foreach ($categoryCollection as $item) {
+            $this->categoriesArray[$item->getId()] = $item;
+        }
+
+        return $this->categoriesArray;
+
+//        print_r($item->getData());
+//        print_r(array_keys($categoryCollection));
+//        echo get_class($categoryCollection);
+//        print_r(array_keys($final));
+    }
+
+    /**
+     * @return \Magento\Catalog\Model\ResourceModel\Category\Collection
+     * todo move the another model
+     */
+    private function addCategoryCollection()
+    {
+
+        $categoryCollection = $this->categoryCollectionFactory->create();
+        $categoryCollection->addAttributeToSelect('*');
+        $this->categoryCollection = $categoryCollection;
+
+        return $this->categoryCollection;
     }
 
 }

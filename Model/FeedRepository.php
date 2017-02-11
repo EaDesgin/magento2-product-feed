@@ -16,18 +16,37 @@ use Magento\Framework\Exception\NoSuchEntityException;
 class FeedRepository implements FeedRepositoryInterface
 {
 
+    /**
+     * @var array
+     */
     private $instances = [];
 
+    /**
+     * @var FeedResourceModel
+     */
     private $feedResourceModel;
 
+    /**
+     * @var FeedFactory
+     */
     private $feedFactory;
 
+    /**
+     * FeedRepository constructor.
+     * @param FeedResourceModel $feedResourceModel
+     * @param FeedFactory $feedFactory
+     */
     public function __construct(FeedResourceModel $feedResourceModel, FeedFactory $feedFactory)
     {
         $this->feedResourceModel = $feedResourceModel;
         $this->feedFactory = $feedFactory;
     }
 
+    /**
+     * @param FeedInterface $feed
+     * @return FeedInterface|\Magento\Framework\Model\AbstractModel
+     * @throws CouldNotSaveException
+     */
     public function save(FeedInterface $feed)
     {
         /** @var \Eadesigndev\Productfeed\Api\Data\FeedInterface|\Magento\Framework\Model\AbstractModel $feed */
@@ -43,6 +62,11 @@ class FeedRepository implements FeedRepositoryInterface
         return $feed;
     }
 
+    /**
+     * @param int $feedId
+     * @return mixed
+     * @throws NoSuchEntityException
+     */
     public function getById($feedId)
     {
         if (!isset($this->instances[$feedId])) {
@@ -60,17 +84,27 @@ class FeedRepository implements FeedRepositoryInterface
         return $this->instances[$feedId];
     }
 
+
     public function getList(SearchCriteriaInterface $searchCriteria)
     {
         // TODO: Implement getList() method.
     }
 
+    /**
+     * @param int $feedId
+     * @return bool
+     */
     public function deleteById($feedId)
     {
         $feed = $this->getById($feedId);
         return $this->delete($feed);
     }
 
+    /**
+     * @param FeedInterface $feed
+     * @return bool
+     * @throws CouldNotSaveException
+     */
     public function delete(FeedInterface $feed)
     {
         /** @var \Eadesigndev\Productfeed\Api\Data\FeedInterface|\Magento\Framework\Model\AbstractModel $feed */

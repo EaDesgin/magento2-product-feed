@@ -17,7 +17,7 @@ use Magento\Store\Model\StoreManagerInterface;
  *
  * Add link to url for products.
  */
-class ProductURLLink extends AbstractDb
+class ProductAdditional extends AbstractDb
 {
 
     /**
@@ -25,6 +25,12 @@ class ProductURLLink extends AbstractDb
      */
     private $storeManager;
 
+    /**
+     * ProductAdditional constructor.
+     * @param Context $context
+     * @param StoreManagerInterface $storeManager
+     * @param null $connectionName
+     */
     public function __construct(
         Context $context,
         StoreManagerInterface $storeManager,
@@ -52,6 +58,7 @@ class ProductURLLink extends AbstractDb
     public function joinToCollection($collection)
     {
 
+        //todo set the proper store id here
         $store = $this->storeManager->getStore(1);
 
         if (!$store) {
@@ -59,6 +66,7 @@ class ProductURLLink extends AbstractDb
         }
         $connection = $this->getConnection();
 
+        /** @var $collection \Magento\Catalog\Model\ResourceModel\Product\Collection */
         $collection->getSelect()
             ->joinInner(
                 ['w' => $this->getTable('catalog_product_website')],
@@ -78,5 +86,6 @@ class ProductURLLink extends AbstractDb
         return $collection;
 
     }
+
 
 }

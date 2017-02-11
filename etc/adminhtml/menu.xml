@@ -18,7 +18,7 @@
              module="Eadesigndev_Productfeed"
              sortOrder="10"
              parent="Eadesigndev_Productfeed::productfeed"
-             action="productfeed/generate"
+             action="productfeed/module"
              resource="Eadesigndev_Productfeed::productfeed"/>
     </menu>
 </config>

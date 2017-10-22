@@ -6,8 +6,8 @@
 
 use \Magento\Framework\Component\ComponentRegistrar;
 
-ComponentRegistrar::register(
-    ComponentRegistrar::MODULE,
-    'Eadesigndev_Productfeed',
-    __DIR__
-); 
+//ComponentRegistrar::register(
+//    ComponentRegistrar::MODULE,
+//    'Eadesigndev_Productfeed',
+//    __DIR__
+//);

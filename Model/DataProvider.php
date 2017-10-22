@@ -7,11 +7,12 @@
 namespace Eadesigndev\Productfeed\Model;
 
 use Magento\Framework\Api\Search\SearchResultInterface;
+use Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider as DataProviderClass;
 
 /**
  * Class DataProvider for the form area
  */
-class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider
+class DataProvider extends DataProviderClass
 {
 
     /**
